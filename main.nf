@@ -11,7 +11,7 @@
    */
   process convertToUpper {
       publishDir "${params.outdir}/uppercase", mode: 'copy'
-      container 'ubuntu:22.04'
+      container 'quay.io/nf-core/ubuntu:20.04'
 
       input:
       path input_file
@@ -30,7 +30,7 @@
    */
   process convertToLower {
       publishDir "${params.outdir}/lowercase", mode: 'copy'
-      container 'ubuntu:22.04'
+      container 'quay.io/nf-core/ubuntu:20.04'
 
       input:
       path input_file
