@@ -1,17 +1,17 @@
- #!/usr/bin/env nextflow
+#!/usr/bin/env nextflow
 
   /*
    * Pipeline parameters
    */
-  params {
-      // Path to a plain text file, for example one that says "hello world"
-      input: Path = 'data/hello.txt'
-  }
+  params.input  = 'data/hello.txt'
+  params.outdir = 'results'
 
   /*
    * Process 1: Convert the text to UPPERCASE
    */
   process convertToUpper {
+      publishDir "${params.outdir}/uppercase", mode: 'copy'
+
       input:
       path input_file
 
@@ -28,6 +28,8 @@
    * Process 2: Convert the text to lowercase
    */
   process convertToLower {
+      publishDir "${params.outdir}/lowercase", mode: 'copy'
+
       input:
       path input_file
 
@@ -41,29 +43,10 @@
   }
 
   workflow {
-      main:
       // Read the text file
-      text_file = channel.fromPath(params.input)
+      text_file = Channel.fromPath(params.input)
 
       // Make an UPPERCASE and a lowercase copy
-      upper_files = convertToUpper(text_file)
-      lower_files = convertToLower(text_file)
-
-      publish:
-      uppercase = upper_files
-      lowercase = lower_files
-  }
-
-  /*
-   * Where the results are saved (inside the `results` folder by default)
-   */
-  output {
-      uppercase {
-          path 'uppercase'
-          mode 'copy'
-      }
-      lowercase {
-          path 'lowercase'
-          mode 'copy'
-      }
+      convertToUpper(text_file)
+      convertToLower(text_file)
   }
