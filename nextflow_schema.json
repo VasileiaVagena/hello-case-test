@@ -1,0 +1,26 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "title": "hello-case-test",
+    "description": "Makes an uppercase and a lowercase copy of a text file",
+    "type": "object",
+    "$defs": {
+      "input_output_options": {
+        "title": "Input/output options",
+        "type": "object",
+        "required": ["input", "outdir"],
+        "properties": {
+          "input": {
+            "type": "string",
+            "format": "file-path",
+            "description": "Text file to convert"
+          },
+          "outdir": {
+            "type": "string",
+            "format": "directory-path",
+            "description": "Folder where the results are saved"
+          }
+        }
+      }
+    },
+    "allOf": [{ "$ref": "#/$defs/input_output_options" }]
+  }
